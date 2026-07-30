@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug } from '@/lib/services/postService';
+import ViewTicker from '@/components/ViewTicker';
 
 export const revalidate = 60;
 
@@ -16,7 +17,9 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
   }
   
   return (
-    <article className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-slate-200 shadow-sm">
+    <>
+      <ViewTicker postId={post.id} />
+      <article className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-2xl border border-slate-200 shadow-sm">
       <header className="mb-8 border-b border-slate-100 pb-8">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-4 leading-tight">{post.title}</h1>
         <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 font-medium">
@@ -44,5 +47,6 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
         <p className="whitespace-pre-wrap">{post.content}</p>
       </div>
     </article>
+    </>
   );
 }

@@ -46,3 +46,39 @@ export async function getDashboardStats() {
     recentPosts,
   };
 }
+
+export async function createPost(data: Prisma.PostCreateInput) {
+  return prisma.post.create({
+    data,
+  });
+}
+
+export async function updatePost(id: string, data: Prisma.PostUpdateInput) {
+  return prisma.post.update({
+    where: { id },
+    data,
+  });
+}
+
+export async function deletePost(id: string) {
+  return prisma.post.delete({
+    where: { id },
+  });
+}
+
+export async function togglePublish(id: string) {
+  const post = await prisma.post.findUnique({ where: { id }, select: { published: true } });
+  if (!post) throw new Error('Post not found');
+  
+  return prisma.post.update({
+    where: { id },
+    data: { published: !post.published },
+  });
+}
+
+export async function incrementViews(id: string) {
+  return prisma.post.update({
+    where: { id },
+    data: { views: { increment: 1 } },
+  });
+}
