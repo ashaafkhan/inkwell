@@ -1,0 +1,33 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "sqlite" // change to "postgresql" for production, see Stage 6
+}
+
+model Post {
+  id         String    @id @default(cuid())
+  title      String
+  slug       String    @unique
+  excerpt    String
+  content    String
+  category   String    @default("general")
+  published  Boolean   @default(false)
+  views      Int       @default(0)
+  authorName String    @default("Admin")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  comments   Comment[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  name      String
+  content   String
+  createdAt DateTime @default(now())
+}
