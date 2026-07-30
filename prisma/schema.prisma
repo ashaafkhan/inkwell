@@ -5,7 +5,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // change to "postgresql" for production, see Stage 6
+  provider  = "postgresql"
 }
 
 model Post {

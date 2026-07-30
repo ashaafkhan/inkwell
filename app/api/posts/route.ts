@@ -24,8 +24,7 @@ export async function POST(request: NextRequest) {
     
     const post = await createPost({
       ...validatedData,
-      authorName: 'Admin',
-      authorEmail: 'admin@inkwell.com'
+      authorName: 'Admin'
     });
     
     return NextResponse.json(post, { status: 201 });

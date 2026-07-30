@@ -15,7 +15,6 @@ export async function createPostAction(formData: FormData) {
   const post = await createPost({
     ...parsed,
     authorName: 'Admin',
-    authorEmail: 'admin@inkwell.com',
   });
 
   revalidatePath('/');

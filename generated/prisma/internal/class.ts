@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.9.1",
   "engineVersion": "e922089b7d7502aff4249d5da3420f6fa55fc6ad",
-  "activeProvider": "sqlite",
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"sqlite\" // change to \"postgresql\" for production, see Stage 6\n}\n\nmodel Post {\n  id         String    @id @default(cuid())\n  title      String\n  slug       String    @unique\n  excerpt    String\n  content    String\n  category   String    @default(\"general\")\n  published  Boolean   @default(false)\n  views      Int       @default(0)\n  authorName String    @default(\"Admin\")\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  comments   Comment[]\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  postId    String\n  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)\n  name      String\n  content   String\n  createdAt DateTime @default(now())\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Post {\n  id         String    @id @default(cuid())\n  title      String\n  slug       String    @unique\n  excerpt    String\n  content    String\n  category   String    @default(\"general\")\n  published  Boolean   @default(false)\n  views      Int       @default(0)\n  authorName String    @default(\"Admin\")\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  comments   Comment[]\n}\n\nmodel Comment {\n  id        String   @id @default(cuid())\n  postId    String\n  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)\n  name      String\n  content   String\n  createdAt DateTime @default(now())\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -45,10 +45,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.sqlite.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
   },
 
