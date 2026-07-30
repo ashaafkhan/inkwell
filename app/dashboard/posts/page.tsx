@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import SearchBox from '@/components/SearchBox';
+import PostActions from '@/components/PostActions';
 
 type Post = {
   id: string;
@@ -68,6 +69,7 @@ export default function DashboardPostsPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
+                  <PostActions id={post.id} published={post.published} />
                   <Link href={`/dashboard/posts/${post.id}/edit`} className="text-sm px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-600 font-medium hover:bg-slate-50 hover:text-blue-600 transition-colors sm:opacity-0 group-hover:opacity-100 focus:opacity-100">
                     Edit
                   </Link>
